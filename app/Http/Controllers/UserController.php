@@ -17,7 +17,7 @@ class UserController extends Controller
     public function search(){
 
     	$users = User::where('name', 'LIKE', '%'. request('name') .'%')->get();
-        return $users;
+        return response()->json($users);
 
     }
 

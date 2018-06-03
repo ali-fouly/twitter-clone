@@ -21,24 +21,19 @@ class FeedController extends Controller
     	$tweets = array();
 
 		$auth_tweets = auth()->user()->tweets;
-		foreach ($auth_tweets as $tweet) {
-			$tweets[] = json_decode($tweet, true);
-		}
 
 		$followers = auth()->user()->followers;
+
 		foreach ($followers as $follower) {
-			foreach ($follower->tweets as $tweet) {
-				$tweets[] = json_decode($tweet, true);
-			}
+			$tweets = $auth_tweets->merge($follower->tweets);
 		}
+
+		$tweets = json_decode($tweets, true);
 
 		usort($tweets, array('App\Http\Controllers\FeedController', 'sort_by_time'));
 
 		return response()->json($tweets);
-
-		/*foreach ($tweets as $tweet) {
-		 	echo 'User ' . $tweet['user_id'] . ' tweeted ' . '\'' .$tweet['body'] . '\' at ' . $tweet['created_at'] .'<br>'; //return tweets ordered by date & time
-		 }*/
+		
 	}
 
 	public function activityFeed(){
