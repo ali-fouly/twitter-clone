@@ -24,6 +24,9 @@ Route::post('/tweets/store', 'TweetController@store');
 Route::post('/tweets/like', 'TweetController@like');
 Route::post('/tweets/delete', 'TweetController@destroy');
 
+Route::get('/newsfeed', 'FeedController@newsFeed');
+Route::get('/activityfeed', 'FeedController@activityFeed');
+
 Route::get('/home', 'HomeController@index')->name('home');
 
 
