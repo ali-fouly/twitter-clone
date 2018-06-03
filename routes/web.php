@@ -17,4 +17,9 @@ Route::get('/', function () {
 
 Auth::routes();
 
+Route::get('/users/search/{user}', 'UserController@search');
+Route::post('/users/follow', 'UserController@follow');
+
 Route::get('/home', 'HomeController@index')->name('home');
+
+
