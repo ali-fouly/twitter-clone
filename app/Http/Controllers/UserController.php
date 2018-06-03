@@ -14,9 +14,9 @@ class UserController extends Controller
         $this->middleware('auth', ['except' => ['search']]);
     }
 
-    public function search($name){
+    public function search(){
 
-    	$users = User::where('name', 'LIKE', '%'. $name .'%')->get();
+    	$users = User::where('name', 'LIKE', '%'. request('name') .'%')->get();
         return $users;
 
     }
