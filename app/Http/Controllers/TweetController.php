@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use Auth;
+use App\User;
+use App\Tweet;
+
 class TweetController extends Controller
 {
     public function __construct(){
@@ -13,8 +17,6 @@ class TweetController extends Controller
 	}
 
     public function store(){
-
-        return Auth::user()->mentioners;
 
         $body = request('body');
 

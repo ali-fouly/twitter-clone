@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use Auth;
+use App\User;
+use App\Tweet;
+
 class FeedController extends Controller
 {
     public function __construct(){
@@ -28,11 +32,13 @@ class FeedController extends Controller
 			}
 		}
 
-		usort($tweets, array('twitter_clone\Http\Controllers\FeedController', 'sort_by_time'));
+		usort($tweets, array('App\Http\Controllers\FeedController', 'sort_by_time'));
 
-		foreach ($tweets as $tweet) {
+		return response()->json($tweets);
+
+		/*foreach ($tweets as $tweet) {
 		 	echo 'User ' . $tweet['user_id'] . ' tweeted ' . '\'' .$tweet['body'] . '\' at ' . $tweet['created_at'] .'<br>'; //return tweets ordered by date & time
-		 }
+		 }*/
 	}
 
 	public function activityFeed(){

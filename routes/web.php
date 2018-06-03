@@ -17,7 +17,7 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/users/search/{user}', 'UserController@search');
+Route::get('/users/search/{name}', 'UserController@search');
 Route::post('/users/follow', 'UserController@follow');
 
 Route::post('/tweets/store', 'TweetController@store');
