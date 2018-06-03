@@ -20,6 +20,10 @@ Auth::routes();
 Route::get('/users/search/{user}', 'UserController@search');
 Route::post('/users/follow', 'UserController@follow');
 
+Route::post('/tweets/store', 'TweetController@store');
+Route::post('/tweets/like', 'TweetController@like');
+Route::post('/tweets/delete', 'TweetController@destroy');
+
 Route::get('/home', 'HomeController@index')->name('home');
 
 

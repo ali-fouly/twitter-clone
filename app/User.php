@@ -39,6 +39,23 @@ class User extends Authenticatable
         return $this->belongsToMany(User::class, 'user_followers', 'follower_id', 'user_id')->withTimestamps();
     }
 
+    public function tweets(){
+
+        return $this->hasMany(Tweet::class);
+    }
+
+    public function likes(){
+        return $this->belongsToMany(Tweet::class, 'user_likes', 'user_id', 'tweet_id')->withTimestamps();
+    }
+
+    public function mentions(){
+        return $this->belongsToMany(Tweet::class, 'user_mentions', 'mentioner_id', 'tweet_id')->withTimestamps();
+    }
+
+    public function mentioners(){
+        return $this->belongsToMany(User::class, 'user_mentions', 'mentioner_id', 'user_id')->withTimestamps();
+    }
+
     public function getRouteKeyName()
     {
         return 'name';
