@@ -32,12 +32,19 @@ class TweetController extends Controller
             if($user = User::where('name', $partial_body[0])->first()){
                 Auth::user()->mentions()->attach($tweet->id, ['user_id' => $user->id]);
                 event(new \App\Events\ActionTrigerred(Auth::user()->id, 'mentioned', $tweet->id, $user->id));
-                return 'you have posted a tweet and mentioned ' .$user->name . ' successfully!';
+                
+                return response([
+                        'message' => 'you have posted a tweet and mentioned ' .$user->name . ' successfully!',
+                        'status' => '200'
+                ]);
             }
         }
-
         event(new \App\Events\ActionTrigerred(Auth::user()->id, 'tweeted', $tweet->id));
-        return 'you have posted a tweet';
+        
+        return response([
+                'message' => 'you have posted a tweet',
+                'status' => '200'
+        ]);
 
     }
 
@@ -50,7 +57,11 @@ class TweetController extends Controller
                 $tweet->no_likes--;
                 $tweet->update();
                 Auth::user()->likes()->detach($tweet->id);
-                return 'you have unliked the tweet with the ID of ' . $tweet->id;
+
+                return response([
+                        'message' => 'you have unliked the tweet with the ID of ' . $tweet->id,
+                        'status' => '200'
+                ]);
             }
         }
 
@@ -59,7 +70,11 @@ class TweetController extends Controller
 
         Auth::user()->likes()->attach($tweet->id);
         event(new \App\Events\ActionTrigerred(Auth::user()->id, 'liked', $tweet->id));
-        return 'you have liked the tweet with the ID of ' . $tweet->id;
+
+        return response([
+                'message' => 'you have liked the tweet with the ID of ' . $tweet->id,
+                'status' => '200'
+        ]);
 
     }
 
@@ -71,10 +86,16 @@ class TweetController extends Controller
             $tweet = Tweet::find(request('tweet_id'));
     		$tweet->delete();
 
-            return 'you have deleted the tweet with the ID of ' . $tweet->id;
+            return response([
+                'message' => 'you have deleted the tweet with the ID of ' . $tweet->id,
+                'status' => '200'
+            ]);
         }
 
-        return 'you can not delete other users\' tweets';
+        return response([
+                'message' => 'you can not delete other users\' tweets',
+                'status' => '404'
+        ]);
 
     }
 }

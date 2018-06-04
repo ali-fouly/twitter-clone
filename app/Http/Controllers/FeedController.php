@@ -28,7 +28,10 @@ class FeedController extends Controller
 
 		$tweets = $tweets->sortByDesc('created_at');
 
-		return response()->json($tweets);
+		//return response()->json($tweets);
+		return response([
+			'data' => $tweets
+		]);
 
 	}
 
@@ -44,7 +47,9 @@ class FeedController extends Controller
 
 		$logs = $logs->sortByDesc('created_at');
 
-		return response()->json($logs);
+		return response([
+			'data' => $logs
+		]);
 
 
 	}
