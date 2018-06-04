@@ -18,33 +18,34 @@ class FeedController extends Controller
 
     public function newsFeed(){
 
-    	$tweets = array();
-
-		$auth_tweets = auth()->user()->tweets;
+		$tweets = auth()->user()->tweets;
 
 		$followers = auth()->user()->followers;
 
 		foreach ($followers as $follower) {
-			$tweets = $auth_tweets->merge($follower->tweets);
+			$tweets = $tweets->merge($follower->tweets);
 		}
 
-		$tweets = json_decode($tweets, true);
-
-		usort($tweets, array('App\Http\Controllers\FeedController', 'sort_by_time'));
+		$tweets = $tweets->sortByDesc('created_at');
 
 		return response()->json($tweets);
-		
+
 	}
 
 	public function activityFeed(){
 
+		$logs = auth()->user()->logs;
+
+		$followings = auth()->user()->followings;
+		
+		foreach ($followings as $following) {
+			$logs = $logs->merge($following->logs);
+		}
+
+		$logs = $logs->sortByDesc('created_at');
+
+		return response()->json($logs);
+
 
 	}
-
-
-	private static function sort_by_time($a,$b)
-	{
-
-        return strtotime($b['created_at']) - strtotime($a['created_at']);
-    }
 }

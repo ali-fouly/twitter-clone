@@ -31,10 +31,12 @@ class TweetController extends Controller
 
             if($user = User::where('name', $partial_body[0])->first()){
                 Auth::user()->mentions()->attach($tweet->id, ['user_id' => $user->id]);
+                event(new \App\Events\ActionTrigerred(Auth::user()->id, 'mentioned', $tweet->id, $user->id));
                 return 'you have posted a tweet and mentioned ' .$user->name . ' successfully!';
             }
         }
 
+        event(new \App\Events\ActionTrigerred(Auth::user()->id, 'tweeted', $tweet->id));
         return 'you have posted a tweet';
 
     }
@@ -56,6 +58,7 @@ class TweetController extends Controller
         $tweet->update();
 
         Auth::user()->likes()->attach($tweet->id);
+        event(new \App\Events\ActionTrigerred(Auth::user()->id, 'liked', $tweet->id));
         return 'you have liked the tweet with the ID of ' . $tweet->id;
 
     }

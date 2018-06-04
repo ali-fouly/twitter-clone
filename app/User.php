@@ -6,6 +6,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 use App\Tweet;
+use App\ActivityLog;
 
 class User extends Authenticatable
 {
@@ -56,6 +57,11 @@ class User extends Authenticatable
 
     public function mentioners(){
         return $this->belongsToMany(User::class, 'user_mentions', 'mentioner_id', 'user_id')->withTimestamps();
+    }
+
+    public function logs(){
+
+        return $this->hasMany(ActivityLog::class);
     }
 
     public function getRouteKeyName()
